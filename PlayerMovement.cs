@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb2D;
     private Animator myAnimator;
 
+    private bool facingRight = true;
+
     //variables to play with
     public float speed = 2.0f;
     public float horizontalMove; // 1, -1, 0 
@@ -25,15 +27,27 @@ public class PlayerMovement : MonoBehaviour
     // Handles input for the physics
     private void Update() {
         //check if the player has input movements
-        horizontalMove = Input.GetAxis("Horizontal");
+        //horizontalMove = Input.GetAxis("Horizontal");
 
         // vvvv Instant Turn Around vvvv
-        // horizontalMove = Input.GetAxisRaw("Horizontal");
+        horizontalMove = Input.GetAxisRaw("Horizontal");
 
     }
     //Handles running the physics
     private void FixedUpdate() {
         //move the player left right
         rb2D.velocity = new Vector2(horizontalMove*speed,rb2D.velocity.y);
+        myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
+        Flip(horizontalMove);
+    }
+
+    //flipping function
+    private void Flip (float horizontal) {
+        if (horizontalMove < 0 && facingRight || horizontalMove > 0 && !facingRight) {
+            facingRight = !facingRight;
+            Vector3 playerScale = transform.localScale;
+            playerScale.x *= -1;
+            transform.localScale = playerScale;
+        }
     }
 }
