@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     //flipping function
     private void Flip (float horizontal) {
-        if (horizontalMove < 0 && facingRight || horizontalMove > 0 && !facingRight) {
+        if ((horizontalMove < 0 && facingRight || horizontalMove > 0 && !facingRight) && !Input.GetButton("Jump")) {
             facingRight = !facingRight;
             Vector3 playerScale = transform.localScale;
             playerScale.x *= -1;
